@@ -1,5 +1,4 @@
 
-```tsx
 import { useState, useMemo } from 'react';
 import { TippingData } from '@/data/types';
 import { Button } from '@/components/ui/button';
@@ -167,4 +166,3 @@ export const SuggestTipDialog = ({ isOpen, onOpenChange, country, onSuggestTip }
     </Dialog>
   );
 };
-```
