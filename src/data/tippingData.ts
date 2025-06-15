@@ -1,4 +1,3 @@
-
 import { TippingData } from './types';
 import { Utensils, GlassWater, Car, Luggage, BedDouble } from 'lucide-react';
 
@@ -16,6 +15,7 @@ export const tippingData: TippingData[] = [
       hotelPorter: { text: '$2-3/bag', icon: Luggage },
       hotelHousekeeping: { text: '$3-5/night', icon: BedDouble },
     },
+    serviceChargeRule: 'not_included',
     tipOptions: [15, 18, 20],
   },
   {
@@ -31,6 +31,7 @@ export const tippingData: TippingData[] = [
       hotelPorter: { text: 'Not necessary', icon: Luggage },
       hotelHousekeeping: { text: 'Not necessary', icon: BedDouble },
     },
+    serviceChargeRule: 'not_included',
     tipOptions: 'none',
   },
   {
@@ -46,6 +47,7 @@ export const tippingData: TippingData[] = [
       hotelPorter: { text: '£1-2/bag', icon: Luggage },
       hotelHousekeeping: { text: '£1-2/night', icon: BedDouble },
     },
+    serviceChargeRule: 'optional',
     tipOptions: [10, 12.5, 15],
   },
   {
@@ -61,6 +63,7 @@ export const tippingData: TippingData[] = [
       hotelPorter: { text: '€1-2/bag', icon: Luggage },
       hotelHousekeeping: { text: '€2-3/night', icon: BedDouble },
     },
+    serviceChargeRule: 'not_included',
     tipOptions: 'round-up',
   },
   {
@@ -76,6 +79,7 @@ export const tippingData: TippingData[] = [
       hotelPorter: { text: '€1-2/bag', icon: Luggage },
       hotelHousekeeping: { text: '€2-3/night', icon: BedDouble },
     },
+    serviceChargeRule: 'included',
     tipOptions: [5, 10],
   },
   {
@@ -91,6 +95,7 @@ export const tippingData: TippingData[] = [
       hotelPorter: { text: '$20-50 MXN/bag', icon: Luggage },
       hotelHousekeeping: { text: '$40-60 MXN/night', icon: BedDouble },
     },
+    serviceChargeRule: 'not_included',
     tipOptions: [10, 15, 20],
   },
 ];

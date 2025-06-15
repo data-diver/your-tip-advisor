@@ -22,5 +22,6 @@ export interface TippingData {
     hotelPorter: { text: string; icon: LucideIcon };
     hotelHousekeeping: { text: string; icon: LucideIcon };
   };
+  serviceChargeRule: 'included' | 'optional' | 'not_included';
   tipOptions: TipOptions;
 }

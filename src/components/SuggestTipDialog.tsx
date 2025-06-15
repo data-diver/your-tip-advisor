@@ -87,6 +87,26 @@ export const SuggestTipDialog = ({ isOpen, onOpenChange, country, onSuggestTip }
     handleClose(false);
   };
 
+  const handleNextFromQuality = () => {
+    if (country.serviceChargeRule === 'included') {
+      setServiceChargeIncluded('Yes');
+      setStep('suggestion');
+    } else if (country.serviceChargeRule === 'not_included') {
+      setServiceChargeIncluded('No');
+      setStep('suggestion');
+    } else { // optional
+      setStep('serviceCharge');
+    }
+  };
+
+  const handleBackFromSuggestion = () => {
+    if (country.serviceChargeRule === 'optional') {
+      setStep('serviceCharge');
+    } else {
+      setStep('serviceQuality');
+    }
+  };
+
   const renderStep = () => {
     switch (step) {
       case 'serviceType':
@@ -121,7 +141,7 @@ export const SuggestTipDialog = ({ isOpen, onOpenChange, country, onSuggestTip }
             </RadioGroup>
             <DialogFooter className="mt-6">
               <Button onClick={() => setStep('serviceType')} variant="outline">Back</Button>
-              <Button onClick={() => setStep('serviceCharge')} disabled={!serviceQuality}>Next</Button>
+              <Button onClick={handleNextFromQuality} disabled={!serviceQuality}>Next</Button>
             </DialogFooter>
           </div>
         );
@@ -149,7 +169,7 @@ export const SuggestTipDialog = ({ isOpen, onOpenChange, country, onSuggestTip }
             <p className="text-muted-foreground">Based on your answers, we suggest a tip of:</p>
             <p className="text-5xl font-bold tracking-tight">{suggestedTip}%</p>
             <DialogFooter className="mt-6">
-              <Button onClick={() => setStep('serviceCharge')} variant="outline">Go Back</Button>
+              <Button onClick={handleBackFromSuggestion} variant="outline">Go Back</Button>
               <Button onClick={handleAccept}>Accept & Apply</Button>
             </DialogFooter>
           </div>
