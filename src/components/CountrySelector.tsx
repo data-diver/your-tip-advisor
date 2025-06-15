@@ -39,10 +39,13 @@ export const CountrySelector = ({ countries, onSelectCountry }: CountrySelectorP
               <li key={country.code}>
                 <button
                   onClick={() => onSelectCountry(country)}
-                  className="w-full text-left p-3 rounded-md hover:bg-primary/10 transition-colors flex items-center gap-4"
+                  className="w-full text-left p-3 rounded-md hover:bg-primary/10 transition-colors flex items-center justify-between gap-4"
                 >
-                  <span className="text-2xl">{country.flag}</span>
-                  <span className="font-medium">{country.name}</span>
+                  <div className="flex items-center gap-4">
+                    <span className="font-mono text-muted-foreground w-8 text-left text-lg">{country.code}</span>
+                    <span className="font-medium">{country.name}</span>
+                  </div>
+                  <span className="font-medium text-muted-foreground">{country.currency.symbol}</span>
                 </button>
               </li>
             ))}
