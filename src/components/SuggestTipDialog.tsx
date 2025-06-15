@@ -1,4 +1,3 @@
-
 import { useState, useMemo } from 'react';
 import { TippingData } from '@/data/types';
 import { Button } from '@/components/ui/button';
@@ -17,7 +16,7 @@ interface SuggestTipDialogProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
   country: TippingData;
-  onSuggestTip: (tipPercentage: number) => void;
+  onSuggestTip: (details: { percentage: number; quality: ServiceQuality | ''; serviceCharge: 'Yes' | 'No' | '' }) => void;
 }
 
 type Step = 'serviceType' | 'serviceQuality' | 'serviceCharge' | 'suggestion';
@@ -78,7 +77,11 @@ export const SuggestTipDialog = ({ isOpen, onOpenChange, country, onSuggestTip }
   }, [serviceQuality, serviceChargeIncluded, country.tipOptions]);
 
   const handleAccept = () => {
-    onSuggestTip(suggestedTip);
+    onSuggestTip({
+      percentage: suggestedTip,
+      quality: serviceQuality,
+      serviceCharge: serviceChargeIncluded,
+    });
     handleClose(false);
   };
 

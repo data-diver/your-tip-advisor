@@ -18,10 +18,12 @@ export const CalculatorCard = ({ country, homeCurrency, exchangeRates }: Calcula
   const [tipOption, setTipOption] = useState<number | 'custom' | 'round-up' | 'none'>('none');
   const [customTip, setCustomTip] = useState('');
   const [isSuggestDialogOpen, setIsSuggestDialogOpen] = useState(false);
+  const [suggestionDetails, setSuggestionDetails] = useState<{ quality: string; serviceCharge: string } | null>(null);
 
   useEffect(() => {
     setBillAmount('');
     setCustomTip('');
+    setSuggestionDetails(null);
     if (Array.isArray(country.tipOptions)) {
       setTipOption(country.tipOptions[1] || country.tipOptions[0]);
     } else {
@@ -29,10 +31,16 @@ export const CalculatorCard = ({ country, homeCurrency, exchangeRates }: Calcula
     }
   }, [country]);
 
-  const handleSuggestTip = (suggestedPercentage: number) => {
+  const handleSuggestTip = (details: { percentage: number; quality: string; serviceCharge: string }) => {
     setTipOption('custom');
-    setCustomTip(suggestedPercentage.toString());
+    setCustomTip(details.percentage.toString());
+    setSuggestionDetails({ quality: details.quality, serviceCharge: details.serviceCharge });
     setIsSuggestDialogOpen(false);
+  };
+  
+  const handleCustomTipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCustomTip(e.target.value);
+    setSuggestionDetails(null);
   };
 
   const { tipAmount, totalBill, totalInHomeCurrency } = useMemo(() => {
@@ -113,11 +121,18 @@ export const CalculatorCard = ({ country, homeCurrency, exchangeRates }: Calcula
                 </Button>
               </div>
               {tipOption === 'custom' && (
-                <div className="relative mt-2">
-                   <Input type="number" placeholder="Enter %" value={customTip} onChange={e => setCustomTip(e.target.value)} className="pr-8"/>
-                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                      <span className="text-muted-foreground">%</span>
-                   </div>
+                <div className="mt-2 space-y-1">
+                  <div className="relative">
+                    <Input type="number" placeholder="Enter %" value={customTip} onChange={handleCustomTipChange} className="pr-8"/>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                        <span className="text-muted-foreground">%</span>
+                    </div>
+                  </div>
+                  {suggestionDetails && (
+                    <p className="text-xs text-muted-foreground px-1">
+                      Based on <span className="font-semibold">{suggestionDetails.quality}</span> service, with service charge <span className="font-semibold">{suggestionDetails.serviceCharge === 'Yes' ? 'included' : 'not included'}</span>.
+                    </p>
+                  )}
                 </div>
               )}
               <Button variant="outline" className="w-full mt-4" onClick={() => setIsSuggestDialogOpen(true)}>
