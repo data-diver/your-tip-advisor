@@ -11,7 +11,7 @@ interface CountryInfoCardProps {
 
 export const CountryInfoCard = ({ country, onClear }: CountryInfoCardProps) => {
   return (
-    <Card className="bg-card/80 backdrop-blur-sm border-border">
+    <Card className="bg-card border-border">
       <CardHeader className="flex-row items-center justify-between">
         <div className="flex items-center gap-4">
           <span className="text-4xl">{country.flag}</span>
@@ -22,10 +22,10 @@ export const CountryInfoCard = ({ country, onClear }: CountryInfoCardProps) => {
         </Button>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="bg-accent/10 border-l-4 border-accent text-accent-foreground p-4 rounded-r-md">
+        <div className="bg-muted/30 border-l-4 border-accent p-4 rounded-r-md">
           <div className="flex items-start gap-3">
             <Info className="h-5 w-5 mt-1 flex-shrink-0 text-accent" />
-            <p className="font-semibold">{country.culturalNuance}</p>
+            <p className="text-card-foreground">{country.culturalNuance}</p>
           </div>
         </div>
         <div>
