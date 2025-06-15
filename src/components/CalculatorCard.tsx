@@ -1,3 +1,4 @@
+
 import { useState, useMemo, useEffect } from 'react';
 import { TippingData } from '@/data/types';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
@@ -18,7 +19,7 @@ export const CalculatorCard = ({ country, homeCurrency, exchangeRates }: Calcula
   const [tipOption, setTipOption] = useState<number | 'custom' | 'round-up' | 'none'>('none');
   const [customTip, setCustomTip] = useState('');
   const [isSuggestDialogOpen, setIsSuggestDialogOpen] = useState(false);
-  const [suggestionDetails, setSuggestionDetails] = useState<{ quality: string; serviceCharge: string } | null>(null);
+  const [suggestionDetails, setSuggestionDetails] = useState<{ quality: string; serviceCharge: string; serviceType: string } | null>(null);
 
   useEffect(() => {
     setBillAmount('');
@@ -31,10 +32,10 @@ export const CalculatorCard = ({ country, homeCurrency, exchangeRates }: Calcula
     }
   }, [country]);
 
-  const handleSuggestTip = (details: { percentage: number; quality: string; serviceCharge: string }) => {
+  const handleSuggestTip = (details: { percentage: number; quality: string; serviceCharge: string; serviceType: string }) => {
     setTipOption('custom');
     setCustomTip(details.percentage.toString());
-    setSuggestionDetails({ quality: details.quality, serviceCharge: details.serviceCharge });
+    setSuggestionDetails({ quality: details.quality, serviceCharge: details.serviceCharge, serviceType: details.serviceType });
     setIsSuggestDialogOpen(false);
   };
   
@@ -130,7 +131,7 @@ export const CalculatorCard = ({ country, homeCurrency, exchangeRates }: Calcula
                   </div>
                   {suggestionDetails && (
                     <p className="text-xs text-muted-foreground px-1">
-                      Based on <span className="font-semibold">{suggestionDetails.quality}</span> service, with service charge <span className="font-semibold">{suggestionDetails.serviceCharge === 'Yes' ? 'included' : 'not included'}</span>.
+                      For <span className="font-semibold capitalize">{suggestionDetails.serviceType.replace(/([A-Z])/g, ' $1').trim()}</span> - <span className="font-semibold">{suggestionDetails.quality}</span> service, service charge <span className="font-semibold">{suggestionDetails.serviceCharge === 'Yes' ? 'included' : 'not included'}</span>.
                     </p>
                   )}
                 </div>
