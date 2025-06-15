@@ -1,0 +1,96 @@
+
+import { TippingData } from './types';
+import { Utensils, GlassWater, Car, Luggage, BedDouble } from 'lucide-react';
+
+export const tippingData: TippingData[] = [
+  {
+    name: 'United States',
+    code: 'US',
+    flag: '🇺🇸',
+    currency: { name: 'US Dollar', code: 'USD', symbol: '$' },
+    culturalNuance: 'Tipping is customary and expected for most services.',
+    norms: {
+      restaurant: { text: '15-20%', icon: Utensils },
+      bar: { text: '$1-2/drink or 15-20%', icon: GlassWater },
+      taxi: { text: '15-20%', icon: Car },
+      hotelPorter: { text: '$2-3/bag', icon: Luggage },
+      hotelHousekeeping: { text: '$3-5/night', icon: BedDouble },
+    },
+    tipOptions: [15, 18, 20],
+  },
+  {
+    name: 'Japan',
+    code: 'JP',
+    flag: '🇯🇵',
+    currency: { name: 'Japanese Yen', code: 'JPY', symbol: '¥' },
+    culturalNuance: 'Tipping can be considered rude or cause confusion. Excellent service is standard.',
+    norms: {
+      restaurant: { text: 'Not expected', icon: Utensils },
+      bar: { text: 'Not expected', icon: GlassWater },
+      taxi: { text: 'Not expected', icon: Car },
+      hotelPorter: { text: 'Not necessary', icon: Luggage },
+      hotelHousekeeping: { text: 'Not necessary', icon: BedDouble },
+    },
+    tipOptions: 'none',
+  },
+  {
+    name: 'United Kingdom',
+    code: 'GB',
+    flag: '🇬🇧',
+    currency: { name: 'British Pound', code: 'GBP', symbol: '£' },
+    culturalNuance: 'Check bill for a service charge (often 12.5%). If not included, a tip is appreciated.',
+    norms: {
+      restaurant: { text: '10-15% if no service charge', icon: Utensils },
+      bar: { text: 'Not expected, but can round up', icon: GlassWater },
+      taxi: { text: 'Round up to nearest £ or 10%', icon: Car },
+      hotelPorter: { text: '£1-2/bag', icon: Luggage },
+      hotelHousekeeping: { text: '£1-2/night', icon: BedDouble },
+    },
+    tipOptions: [10, 12.5, 15],
+  },
+  {
+    name: 'Germany',
+    code: 'DE',
+    flag: '🇩🇪',
+    currency: { name: 'Euro', code: 'EUR', symbol: '€' },
+    culturalNuance: 'Rounding up the bill ("Stimmt so" is not a tip) is common. A 5-10% tip ("Trinkgeld") is for good service.',
+    norms: {
+      restaurant: { text: '5-10% or round up', icon: Utensils },
+      bar: { text: 'Round up', icon: GlassWater },
+      taxi: { text: 'Round up to the next Euro', icon: Car },
+      hotelPorter: { text: '€1-2/bag', icon: Luggage },
+      hotelHousekeeping: { text: '€2-3/night', icon: BedDouble },
+    },
+    tipOptions: 'round-up',
+  },
+  {
+    name: 'France',
+    code: 'FR',
+    flag: '🇫🇷',
+    currency: { name: 'Euro', code: 'EUR', symbol: '€' },
+    culturalNuance: 'By law, a 15% service charge ("service compris") is included. A small extra tip ("pourboire") is for exceptional service.',
+    norms: {
+      restaurant: { text: 'Leave €1-2 for good service', icon: Utensils },
+      bar: { text: 'Round up to the next Euro', icon: GlassWater },
+      taxi: { text: '5-10%', icon: Car },
+      hotelPorter: { text: '€1-2/bag', icon: Luggage },
+      hotelHousekeeping: { text: '€2-3/night', icon: BedDouble },
+    },
+    tipOptions: [5, 10],
+  },
+  {
+    name: 'Mexico',
+    code: 'MX',
+    flag: '🇲🇽',
+    currency: { name: 'Mexican Peso', code: 'MXN', symbol: '$' },
+    culturalNuance: 'Tipping ("propina") is customary in most service situations. U.S. coins are not usable.',
+    norms: {
+      restaurant: { text: '10-15%', icon: Utensils },
+      bar: { text: '10-15% or $1 per drink', icon: GlassWater },
+      taxi: { text: 'Not expected, agree on fare first', icon: Car },
+      hotelPorter: { text: '$20-50 MXN/bag', icon: Luggage },
+      hotelHousekeeping: { text: '$40-60 MXN/night', icon: BedDouble },
+    },
+    tipOptions: [10, 15, 20],
+  },
+];
