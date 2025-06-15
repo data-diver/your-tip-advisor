@@ -156,9 +156,12 @@ export const CalculatorCard = ({ country, homeCurrency, exchangeRates }: Calcula
                   <span className="">Total Bill</span>
                   <span className="">{formatCurrency(totalBill, country.currency.code, country.currency.symbol)}</span>
               </div>
-              <p className="text-right text-muted-foreground text-sm">
-                ≈ {formatCurrency(totalInHomeCurrency, homeCurrency, homeCurrencySymbol)}
-              </p>
+              <div className="flex justify-between items-center text-sm text-muted-foreground">
+                <span>Total in Your Currency</span>
+                <span className="font-semibold">
+                  ≈ {formatCurrency(totalInHomeCurrency, homeCurrency, homeCurrencySymbol)}
+                </span>
+              </div>
           </div>
         </CardContent>
       </Card>
