@@ -4,7 +4,7 @@ import { TippingData } from '@/data/types';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
-import { exchangeRates } from '@/data/exchangeRates';
+import { exchangeRates, supportedCurrencies } from '@/data/exchangeRates';
 
 interface CalculatorCardProps {
   country: TippingData;
@@ -49,6 +49,10 @@ export const CalculatorCard = ({ country, homeCurrency, exchangeRates }: Calcula
       totalInHomeCurrency: convertedTotal,
     };
   }, [billAmount, tipOption, customTip, country, homeCurrency, exchangeRates]);
+
+  const homeCurrencySymbol = useMemo(() => {
+    return supportedCurrencies.find(c => c.code === homeCurrency)?.symbol || '$';
+  }, [homeCurrency]);
 
   const formatCurrency = (amount: number, currencyCode: string, symbol: string) => {
     return new Intl.NumberFormat('en-US', {
@@ -124,7 +128,7 @@ export const CalculatorCard = ({ country, homeCurrency, exchangeRates }: Calcula
                 <span className="">{formatCurrency(totalBill, country.currency.code, country.currency.symbol)}</span>
             </div>
             <p className="text-right text-muted-foreground text-sm">
-              ≈ {formatCurrency(totalInHomeCurrency, homeCurrency, exchangeRates[homeCurrency]?.symbol || '$')}
+              ≈ {formatCurrency(totalInHomeCurrency, homeCurrency, homeCurrencySymbol)}
             </p>
         </div>
       </CardContent>

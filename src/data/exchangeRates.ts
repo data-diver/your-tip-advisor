@@ -9,10 +9,10 @@ export const exchangeRates: { [key: string]: { [key: string]: number } } = {
 };
 
 export const supportedCurrencies = [
-  { code: 'USD', name: 'United States Dollar' },
-  { code: 'EUR', name: 'Euro' },
-  { code: 'GBP', name: 'British Pound Sterling' },
-  { code: 'JPY', name: 'Japanese Yen' },
-  { code: 'MXN', name: 'Mexican Peso' },
-  { code: 'CAD', name: 'Canadian Dollar' },
+  { code: 'USD', name: 'United States Dollar', symbol: '$' },
+  { code: 'EUR', name: 'Euro', symbol: '€' },
+  { code: 'GBP', name: 'British Pound Sterling', symbol: '£' },
+  { code: 'JPY', name: 'Japanese Yen', symbol: '¥' },
+  { code: 'MXN', name: 'Mexican Peso', symbol: '$' },
+  { code: 'CAD', name: 'Canadian Dollar', symbol: '$' },
 ];
