@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react'; // Added useEffect and useRef
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea'; // Changed Input to Textarea
+import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { X } from 'lucide-react';
 
@@ -18,6 +18,16 @@ interface Message {
 export const ChatInterface = ({ isOpen, onClose }: ChatInterfaceProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
+  const messagesEndRef = useRef<HTMLDivElement>(null); // Ref for the element at the end of messages
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    // Scroll to bottom when messages change
+    scrollToBottom();
+  }, [messages]);
 
   const handleSendMessage = () => {
     if (inputValue.trim() === '') return;
@@ -65,6 +75,7 @@ export const ChatInterface = ({ isOpen, onClose }: ChatInterfaceProps) => {
               <p className="text-sm">{msg.text}</p>
             </div>
           ))}
+          <div ref={messagesEndRef} /> {/* Element to scroll to */}
         </ScrollArea>
         <div className="flex items-start gap-2"> {/* items-start for better alignment with multi-line textarea */}
           <Textarea
