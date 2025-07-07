@@ -5,16 +5,17 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { exchangeRates, supportedCurrencies } from '@/data/exchangeRates';
-import { HelpCircle } from 'lucide-react';
+import { HelpCircle, MessageSquare } from 'lucide-react'; // Added MessageSquare
 import { SuggestTipDialog } from './SuggestTipDialog';
 
 interface CalculatorCardProps {
   country: TippingData;
   homeCurrency: string;
   exchangeRates: { [key: string]: { [key: string]: number } };
+  onOpenChat: () => void; // Added prop for opening chat
 }
 
-export const CalculatorCard = ({ country, homeCurrency, exchangeRates }: CalculatorCardProps) => {
+export const CalculatorCard = ({ country, homeCurrency, exchangeRates, onOpenChat }: CalculatorCardProps) => {
   const [billAmount, setBillAmount] = useState('');
   const [tipOption, setTipOption] = useState<number | 'custom' | 'round-up' | 'none'>('none');
   const [customTip, setCustomTip] = useState('');
@@ -140,6 +141,9 @@ export const CalculatorCard = ({ country, homeCurrency, exchangeRates }: Calcula
                 <HelpCircle />
                 Suggest a Tip
               </Button>
+             <Button variant="outline" className="w-full mt-2" onClick={onOpenChat}>
+               <MessageSquare className="mr-2 h-4 w-4" /> Ask AI Advisor
+             </Button>
             </div>
           )}
 
