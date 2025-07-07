@@ -70,3 +70,44 @@ describe('ChatInterface', () => {
 
   });
 });
+
+describe('ChatInterface Auto-scrolling', () => {
+  const mockOnClose = jest.fn();
+  let scrollIntoViewMock: jest.SpyInstance;
+
+  beforeEach(() => {
+    mockOnClose.mockClear();
+    scrollIntoViewMock = jest.spyOn(HTMLDivElement.prototype, 'scrollIntoView').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    scrollIntoViewMock.mockRestore();
+  });
+
+  test('scrolls to bottom when new messages are added', async () => {
+    render(<ChatInterface isOpen={true} onClose={mockOnClose} />);
+    const input = screen.getByPlaceholderText('Ask for tipping advice...');
+    const sendButton = screen.getByRole('button', { name: 'Send' });
+
+    // Initial render might cause a scroll if messages were pre-populated (not in this case)
+    // So we clear mock calls after the initial render and before interaction
+    scrollIntoViewMock.mockClear();
+
+    // Send user message
+    fireEvent.change(input, { target: { value: 'Test user message' } });
+    fireEvent.click(sendButton);
+
+    // Check if scrollIntoView was called for the user's message
+    // useEffect runs after render, so it should be called once here
+    expect(scrollIntoViewMock).toHaveBeenCalledTimes(1);
+
+    // Wait for mock LLM response
+    await waitFor(() =>
+      expect(screen.getByText("This is a mock LLM response. I'll be able to provide more helpful advice soon!")).toBeInTheDocument()
+    );
+
+    // Check if scrollIntoView was called again for the LLM's message
+    // The messages array updates, triggering useEffect again
+    expect(scrollIntoViewMock).toHaveBeenCalledTimes(2);
+  });
+});
