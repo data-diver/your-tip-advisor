@@ -18,6 +18,7 @@ interface Message {
 export const ChatInterface = ({ isOpen, onClose }: ChatInterfaceProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // Added loading state
   const messagesEndRef = useRef<HTMLDivElement>(null); // Ref for the element at the end of messages
 
   const scrollToBottom = () => {
@@ -40,15 +41,45 @@ export const ChatInterface = ({ isOpen, onClose }: ChatInterfaceProps) => {
     setMessages((prevMessages) => [...prevMessages, newUserMessage]);
     setInputValue('');
 
-    // Mock LLM response (will be replaced in the next step)
-    setTimeout(() => {
-      const llmResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        text: "This is a mock LLM response. I'll be able to provide more helpful advice soon!",
-        sender: 'llm',
-      };
-      setMessages((prevMessages) => [...prevMessages, llmResponse]);
-    }, 1000);
+    // Call the backend API
+    const callBackendApi = async () => {
+      setIsLoading(true); // Set loading true
+      try {
+        const response = await fetch('http://localhost:5000/api/chat-gemini', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message: newUserMessage.text }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const backendResponse = await response.json();
+
+        const llmResponse: Message = {
+          id: (Date.now() + 1).toString(), // Simple ID generation
+          text: backendResponse.reply || "No reply from backend.",
+          sender: 'llm', // Assuming 'llm' or derive from backendResponse.sender if available
+        };
+        setMessages((prevMessages) => [...prevMessages, llmResponse]);
+
+      } catch (error) {
+        console.error("Failed to fetch from backend:", error);
+        const errorResponse: Message = {
+          id: (Date.now() + 1).toString(),
+          text: "Sorry, I couldn't connect to the AI advisor. Please try again later.",
+          sender: 'llm',
+        };
+        setMessages((prevMessages) => [...prevMessages, errorResponse]);
+      } finally {
+        setIsLoading(false); // Set loading false in finally block
+      }
+    };
+
+    callBackendApi();
   };
 
   if (!isOpen) return null;
@@ -83,16 +114,22 @@ export const ChatInterface = ({ isOpen, onClose }: ChatInterfaceProps) => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyPress={(e) => {
-              // Send on Enter unless Shift is pressed (for new line)
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault(); // Prevent new line in textarea
+              if (e.key === 'Enter' && !e.shiftKey && !isLoading) { // Disable onKeyPress send if loading
+                e.preventDefault();
                 handleSendMessage();
               }
             }}
-            className="flex-grow resize-none" // resize-none to prevent manual resize, let content dictate height or scroll
-            rows={1} // Start with 1 row, will expand / scroll based on content and CSS
+            className="flex-grow resize-none"
+            rows={1}
+            disabled={isLoading} // Disable textarea when loading
           />
-          <Button onClick={handleSendMessage} className="self-end">Send</Button> {/* self-end to align with bottom of textarea if it grows */}
+          <Button onClick={handleSendMessage} className="self-end" disabled={isLoading}>
+            {isLoading ? (
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
+            ) : (
+              "Send"
+            )}
+          </Button>
         </div>
       </div>
     </div>
