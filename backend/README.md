@@ -36,6 +36,8 @@ This directory contains the Python Flask backend service that acts as a proxy fo
         ```
         Replace `"YOUR_ACTUAL_GEMINI_API_KEY"` with your real API key obtained from Google AI Studio or Google Cloud Console.
 
+    *   The behavior and focus of the AI are guided by a system prompt located in `system_prompt.md`. You can edit this file to change the AI's persona, instructions, and constraints.
+
 ## Running the Backend
 
 1.  **Activate Virtual Environment (if not already active):**

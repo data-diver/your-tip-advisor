@@ -40,7 +40,27 @@ if GEMINI_API_KEY:
         # Adjust model name as needed, e.g., "gemini-pro", "gemini-1.0-pro"
         # For chat, you might use a specific chat model or manage history.
         # For a simple Q&A, a text generation model might be sufficient.
-        model = genai.GenerativeModel('gemini-pro')
+
+        # Load system prompt from file
+        system_prompt_text = None
+        try:
+            with open("system_prompt.md", "r", encoding="utf-8") as f:
+                system_prompt_text = f.read()
+            if system_prompt_text:
+                print("System prompt loaded successfully from system_prompt.md.")
+        except FileNotFoundError:
+            print("Warning: system_prompt.md not found. Proceeding without a specific system prompt.")
+        except Exception as e_file:
+            print(f"Warning: Error reading system_prompt.md: {e_file}. Proceeding without a specific system prompt.")
+
+        model_params = {'model_name': 'gemini-pro'}
+        if system_prompt_text:
+            # Note: For some versions/models, system_instruction might be part of GenerativeModel constructor
+            # or passed differently. Adjust if 'system_instruction' is not a direct param for 'gemini-pro' like this.
+            # For gemini-pro, system_instruction is a valid parameter for GenerativeModel.
+            model_params['system_instruction'] = system_prompt_text
+
+        model = genai.GenerativeModel(**model_params)
         print("Gemini API configured successfully.")
     except Exception as e:
         print(f"Error configuring Gemini API: {e}")
