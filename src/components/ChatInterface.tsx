@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea'; // Changed Input to Textarea
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { X } from 'lucide-react';
 
@@ -66,16 +66,22 @@ export const ChatInterface = ({ isOpen, onClose }: ChatInterfaceProps) => {
             </div>
           ))}
         </ScrollArea>
-        <div className="flex gap-2">
-          <Input
-            type="text"
+        <div className="flex items-start gap-2"> {/* items-start for better alignment with multi-line textarea */}
+          <Textarea
             placeholder="Ask for tipping advice..."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-            className="flex-grow"
+            onKeyPress={(e) => {
+              // Send on Enter unless Shift is pressed (for new line)
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault(); // Prevent new line in textarea
+                handleSendMessage();
+              }
+            }}
+            className="flex-grow resize-none" // resize-none to prevent manual resize, let content dictate height or scroll
+            rows={1} // Start with 1 row, will expand / scroll based on content and CSS
           />
-          <Button onClick={handleSendMessage}>Send</Button>
+          <Button onClick={handleSendMessage} className="self-end">Send</Button> {/* self-end to align with bottom of textarea if it grows */}
         </div>
       </div>
     </div>

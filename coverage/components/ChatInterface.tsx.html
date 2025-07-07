@@ -23,16 +23,16 @@
         <div class='clearfix'>
 
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.15% </span>
+                <span class="strong">89.28% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>25/26</span>
+                <span class='fraction'>25/28</span>
             </div>
 
 
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/8</span>
+                <span class='fraction'>6/10</span>
             </div>
 
 
@@ -44,9 +44,9 @@
 
 
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.23% </span>
+                <span class="strong">86.95% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>20/21</span>
+                <span class='fraction'>20/23</span>
             </div>
 
 
@@ -146,7 +146,13 @@
 <a name='L81'></a><a href='#L81'>81</a>
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a>
-<a name='L84'></a><a href='#L84'>84</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -218,9 +224,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -231,7 +243,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea'; // Changed Input to Textarea
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { X } from 'lucide-react';
 &nbsp;
@@ -297,16 +309,22 @@ export const ChatInterface = ({ isOpen, onClose }: ChatInterfaceProps) =&gt; {
             &lt;/div&gt;
           ))}
         &lt;/ScrollArea&gt;
-        &lt;div className="flex gap-2"&gt;
-          &lt;Input
-            type="text"
+        &lt;div className="flex items-start gap-2"&gt; {/* items-start for better alignment with multi-line textarea */}
+          &lt;Textarea
             placeholder="Ask for tipping advice..."
             value={inputValue}
             onChange={(e) =&gt; setInputValue(e.target.value)}
-            onKeyPress={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >e.key === 'Enter' &amp;&amp; handleSendMessage()}</span>
-            className="flex-grow"
+            onKeyPress={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
+              // Send on Enter unless Shift is pressed (for new line)
+<span class="cstat-no" title="statement not covered" >              if (e.key === 'Enter' &amp;&amp; !e.shiftKey) {</span>
+<span class="cstat-no" title="statement not covered" >                e.preventDefault(); </span>// Prevent new line in textarea
+<span class="cstat-no" title="statement not covered" >                handleSendMessage();</span>
+              }
+            }}
+            className="flex-grow resize-none" // resize-none to prevent manual resize, let content dictate height or scroll
+            rows={1} // Start with 1 row, will expand / scroll based on content and CSS
           /&gt;
-          &lt;Button onClick={handleSendMessage}&gt;Send&lt;/Button&gt;
+          &lt;Button onClick={handleSendMessage} className="self-end"&gt;Send&lt;/Button&gt; {/* self-end to align with bottom of textarea if it grows */}
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
@@ -319,7 +337,7 @@ export const ChatInterface = ({ isOpen, onClose }: ChatInterfaceProps) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-21T02:04:32.923Z
+                at 2025-07-07T16:09:48.654Z
             </div>
         <script src="../prettify.js"></script>
         <script>
