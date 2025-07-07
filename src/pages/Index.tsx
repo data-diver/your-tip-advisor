@@ -8,10 +8,12 @@ import { CountrySelector } from "@/components/CountrySelector";
 import { CountryInfoCard } from "@/components/CountryInfoCard";
 import { CalculatorCard } from "@/components/CalculatorCard";
 import { HomeCurrencySelector } from "@/components/HomeCurrencySelector";
+import { ChatInterface } from "@/components/ChatInterface"; // Added ChatInterface import
 
 const Index = () => {
   const [selectedCountry, setSelectedCountry] = useState<TippingData | null>(null);
   const [homeCurrency, setHomeCurrency] = useState('USD');
+  const [isChatOpen, setIsChatOpen] = useState(false); // Added state for chat visibility
 
   const handleSelectCountry = (country: TippingData) => {
     setSelectedCountry(country);
@@ -43,7 +45,8 @@ const Index = () => {
                 <CalculatorCard 
                   country={selectedCountry} 
                   homeCurrency={homeCurrency} 
-                  exchangeRates={exchangeRates} 
+                   exchangeRates={exchangeRates}
+                   onOpenChat={() => setIsChatOpen(true)} // Passed chat open handler
                 />
               </div>
             ) : (
@@ -59,6 +62,10 @@ const Index = () => {
           </div>
         </div>
       </main>
+       <ChatInterface
+         isOpen={isChatOpen}
+         onClose={() => setIsChatOpen(false)}
+       />
     </div>
   );
 };
